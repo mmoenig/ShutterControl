@@ -18,7 +18,7 @@ STOP    = 33    #PIN 33
 DOWN    = 35    #PIN 35
 CHANNEL = 31    #PIN 31
 BLOCK   = 40    #PIN 40
-PULSE   = 0.1   #Wait time between channel switch
+PULSE   = 0.3   #Wait time between channel switch
 PUSH    = 1.4   #transmission time for radio command 
 CHANNELS= 8     #number of available remote channels (could be changed to 4 or 16 channels)
 ##################################################################
@@ -70,11 +70,12 @@ elif function == 4:         # Drive to 3rd stopping point
     GPIO.output(STOP, GPIO.LOW)
     
 # Back to start position  (channel 1) ----------------------------
-for i in range(position, CHANNELS + 1):
-    GPIO.output(CHANNEL, GPIO.HIGH)
-    time.sleep(PULSE)
-    GPIO.output(CHANNEL, GPIO.LOW)
-    time.sleep(PULSE)
+if position > 1:
+    for i in range(position, CHANNELS + 1):
+        GPIO.output(CHANNEL, GPIO.HIGH)
+        time.sleep(PULSE)
+        GPIO.output(CHANNEL, GPIO.LOW)
+        time.sleep(PULSE)
 
 # Remove GPIO Blocking -------------------------------------------
 GPIO.output(BLOCK, GPIO.LOW)
